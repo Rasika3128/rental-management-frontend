@@ -121,7 +121,30 @@ function Profile() {
             <p><strong>Email:</strong> {profile.email}</p>
             <p><strong>Phone:</strong> {profile.phone}</p>
             <p><strong>Start Date:</strong> {profile.startDate}</p>
+            <p><strong>{profile.occupation}:</strong> {profile.organizationName}</p>
           </div>
+        </div>
+
+                <h3>Account Summary</h3>
+        <div className="stats-row">
+          <div className="stat-card">
+            <p className="stat-number">₹{profile.monthlyRent}</p>
+            <p className="stat-label">Monthly Rent</p>
+          </div>
+          <div className="stat-card">
+            <p className="stat-number">₹{profile.totalPaid}</p>
+            <p className="stat-label">Paid ({profile.monthsElapsed} months, ₹{profile.totalDue} due)</p>
+          </div>
+          <div className="stat-card">
+            <p className="stat-number" style={{ color: profile.balance > 0 ? '#dc2626' : '#16a34a' }}>
+              ₹{profile.balance}
+            </p>
+            <p className="stat-label">Balance</p>
+          </div>
+        </div>
+        <div className="card">
+          <p><strong>Deposit:</strong> ₹{profile.depositPaid} जमा / ₹{profile.depositAmount} एकूण
+            (बाकी ₹{profile.depositAmount - profile.depositPaid})</p>
         </div>
 
         <h3>Pay Rent</h3>

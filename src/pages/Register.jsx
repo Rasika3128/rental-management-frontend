@@ -13,6 +13,11 @@ function Register() {
     password: '',
     confirmPassword: '',
     startDate: '',
+    monthlyRent: '',
+    depositAmount: '',
+    depositPaid: '',
+    occupation: 'Student',
+    organizationName: '',
   });
   const [idProof, setIdProof] = useState(null);
   const [photo, setPhoto] = useState(null);
@@ -49,6 +54,11 @@ function Register() {
     data.append('password', formData.password);
     data.append('confirmPassword', formData.confirmPassword);
     data.append('startDate', formData.startDate);
+    data.append('monthlyRent', formData.monthlyRent);
+    data.append('depositAmount', formData.depositAmount);
+    data.append('depositPaid', formData.depositPaid);
+    data.append('occupation', formData.occupation);
+    data.append('organizationName', formData.organizationName);
     data.append('idProof', idProof);
     data.append('photo', photo);
 
@@ -125,6 +135,39 @@ function Register() {
                 onChange={handleChange}
                 required
               />
+            </div>
+
+                        <div className="form-group">
+              <label>Monthly Rent (₹)</label>
+              <input type="number" name="monthlyRent" value={formData.monthlyRent} onChange={handleChange} required />
+            </div>
+
+            <div className="form-group">
+              <label>Total Deposit (₹)</label>
+              <input type="number" name="depositAmount" value={formData.depositAmount} onChange={handleChange} required />
+            </div>
+
+            <div className="form-group">
+              <label>Deposit Paid So Far (₹)</label>
+              <input type="number" name="depositPaid" value={formData.depositPaid} onChange={handleChange} required />
+            </div>
+
+                        <div className="form-group">
+              <label>Occupation</label>
+              <select
+                name="occupation"
+                value={formData.occupation}
+                onChange={handleChange}
+                style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid rgba(0,0,0,0.08)' }}
+              >
+                <option value="Student">Student</option>
+                <option value="Working">Working</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>{formData.occupation === 'Working' ? 'Company Name' : 'School / College Name'}</label>
+              <input type="text" name="organizationName" value={formData.organizationName} onChange={handleChange} required />
             </div>
 
             <div className="form-group">
