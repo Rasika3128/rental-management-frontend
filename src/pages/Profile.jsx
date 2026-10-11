@@ -5,6 +5,8 @@ import { useAuth } from '../context/useAuth';
 import ErrorMessage from '../components/ErrorMessage';
 import LoadingSpinner from '../components/LoadingSpinner';
 
+const FILES_URL = 'https://rental-management-backend-geea.onrender.com/uploads/';
+
 function Profile() {
   const [profile, setProfile] = useState(null);
   const [rentData, setRentData] = useState(null);
@@ -100,11 +102,26 @@ function Profile() {
           <button className="btn btn-outline" onClick={handleLogout}>Logout</button>
         </div>
 
-        <div className="card">
-          <p><strong>Name:</strong> {profile.name}</p>
-          <p><strong>Email:</strong> {profile.email}</p>
-          <p><strong>Phone:</strong> {profile.phone}</p>
-          <p><strong>Start Date:</strong> {profile.startDate}</p>
+        <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+          {profile.photoPath && (
+            <img
+              src={FILES_URL + profile.photoPath}
+              alt="Profile"
+              style={{
+                width: '100px',
+                height: '100px',
+                borderRadius: '50%',
+                objectFit: 'cover',
+                border: '3px solid #4f46e5',
+              }}
+            />
+          )}
+          <div>
+            <p><strong>Name:</strong> {profile.name}</p>
+            <p><strong>Email:</strong> {profile.email}</p>
+            <p><strong>Phone:</strong> {profile.phone}</p>
+            <p><strong>Start Date:</strong> {profile.startDate}</p>
+          </div>
         </div>
 
         <h3>Pay Rent</h3>
