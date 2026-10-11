@@ -62,6 +62,28 @@ function AdminDashboard() {
     }
   };
 
+    const handleEditFinance = async (u) => {
+    const rent = window.prompt('Monthly rent (Rs):', u.monthlyRent);
+    if (rent === null) return;
+    const dep = window.prompt('Total deposit (Rs):', u.depositAmount);
+    if (dep === null) return;
+    const paid = window.prompt('Deposit paid so far (Rs):', u.depositPaid);
+    if (paid === null) return;
+
+    try {
+      await api.put('/admin/users/' + u.id + '/finance', {
+        monthlyRent: Number(rent),
+        depositAmount: Number(dep),
+        depositPaid: Number(paid),
+      });
+      setActionMessage('Updated finance for ' + u.name);
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      setActionMessage('Failed to update');
+    }
+  };
+
   const getRoleBadgeClass = (role) => {
     if (role === 'ADMIN') {
       return 'badge badge-accepted';
@@ -114,6 +136,9 @@ function AdminDashboard() {
                 <th>Role</th>
                 <th>Pending</th>
                 <th>Completed</th>
+                <th>Rent</th>
+                <th>Deposit (paid/total)</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -127,6 +152,13 @@ function AdminDashboard() {
                     </td>
                     <td>{u.pendingCount}</td>
                     <td>{u.completedCount}</td>
+                     <td>₹{u.monthlyRent}</td>
+                    <td>₹{u.depositPaid} / ₹{u.depositAmount}</td>
+                    <td>
+                      <button className="btn btn-outline" onClick={() => handleEditFinance(u)}>
+                        Edit
+                      </button>
+                    </td>
                   </tr>
                 );
               })}
