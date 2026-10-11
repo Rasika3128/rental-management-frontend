@@ -70,6 +70,8 @@ function AdminDashboard() {
     const paid = window.prompt('Deposit paid so far (Rs):', u.depositPaid);
     if (paid === null) return;
 
+    
+
     try {
       await api.put('/admin/users/' + u.id + '/finance', {
         monthlyRent: Number(rent),
@@ -83,6 +85,33 @@ function AdminDashboard() {
       setActionMessage('Failed to update');
     }
   };
+
+    const handleDeleteUser = async (u) => {
+    const ok = window.confirm('Delete ' + u.name + ' and all their payment history? This cannot be undone.');
+    if (!ok) return;
+    try {
+      await api.delete('/admin/users/' + u.id);
+      setActionMessage('Deleted ' + u.name);
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      setActionMessage('Failed to delete user');
+    }
+  };
+
+    const handleResetPassword = async (u) => {
+    const pw = window.prompt('New temporary password for ' + u.name + ' (min 6 characters):');
+    if (!pw) return;
+    try {
+      await api.put('/admin/users/' + u.id + '/reset-password', { newPassword: pw });
+      setActionMessage('Password reset for ' + u.name + '. Tell them the new password.');
+    } catch (err) {
+      console.error(err);
+      setActionMessage(err.response?.data?.message || 'Failed to reset password');
+    }
+  };
+
+  
 
   const getRoleBadgeClass = (role) => {
     if (role === 'ADMIN') {
@@ -158,7 +187,15 @@ function AdminDashboard() {
                       <button className="btn btn-outline" onClick={() => handleEditFinance(u)}>
                         Edit
                       </button>
+                      <button className="btn btn-outline" style={{ marginLeft: '8px' }} onClick={() =>    handleResetPassword(u)}>
+                        Reset Password
+                      </button>
                     </td>
+                                          {u.role !== 'ADMIN' && (
+                        <button className="btn btn-danger" style={{ marginLeft: '8px' }} onClick={() => handleDeleteUser(u)}>
+                          Delete
+                        </button>
+                      )}
                   </tr>
                 );
               })}

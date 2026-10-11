@@ -73,6 +73,15 @@ function Login() {
               />
             </div>
 
+             <p style={{ textAlign: 'right', fontSize: '13px', marginBottom: '12px' }}>
+              <a href="#forgot" onClick={(e) => {
+                e.preventDefault();
+                alert('Please contact your property admin/owner to reset your password. They can set a new temporary password for you.');
+              }}>
+                Forgot password?
+              </a>
+            </p>
+
             <ErrorMessage message={error} />
 
             <button type="submit" className="btn btn-primary" disabled={loading}>
