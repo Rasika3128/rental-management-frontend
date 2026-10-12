@@ -5,6 +5,8 @@ import { useAuth } from '../../context/useAuth';
 import ErrorMessage from '../../components/ErrorMessage';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
+const FILES_URL = 'https://rental-management-backend-geea.onrender.com/uploads/';
+
 function AdminDashboard() {
   const [users, setUsers] = useState([]);
   const [pendingPayments, setPendingPayments] = useState([]);
@@ -62,15 +64,13 @@ function AdminDashboard() {
     }
   };
 
-    const handleEditFinance = async (u) => {
+  const handleEditFinance = async (u) => {
     const rent = window.prompt('Monthly rent (Rs):', u.monthlyRent);
     if (rent === null) return;
     const dep = window.prompt('Total deposit (Rs):', u.depositAmount);
     if (dep === null) return;
     const paid = window.prompt('Deposit paid so far (Rs):', u.depositPaid);
     if (paid === null) return;
-
-    
 
     try {
       await api.put('/admin/users/' + u.id + '/finance', {
@@ -86,20 +86,7 @@ function AdminDashboard() {
     }
   };
 
-    const handleDeleteUser = async (u) => {
-    const ok = window.confirm('Delete ' + u.name + ' and all their payment history? This cannot be undone.');
-    if (!ok) return;
-    try {
-      await api.delete('/admin/users/' + u.id);
-      setActionMessage('Deleted ' + u.name);
-      fetchData();
-    } catch (err) {
-      console.error(err);
-      setActionMessage('Failed to delete user');
-    }
-  };
-
-    const handleResetPassword = async (u) => {
+  const handleResetPassword = async (u) => {
     const pw = window.prompt('New temporary password for ' + u.name + ' (min 6 characters):');
     if (!pw) return;
     try {
@@ -111,7 +98,18 @@ function AdminDashboard() {
     }
   };
 
-  
+  const handleDeleteUser = async (u) => {
+    const ok = window.confirm('Delete ' + u.name + ' and all their payment history? This cannot be undone.');
+    if (!ok) return;
+    try {
+      await api.delete('/admin/users/' + u.id);
+      setActionMessage('Deleted ' + u.name);
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      setActionMessage('Failed to delete user');
+    }
+  };
 
   const getRoleBadgeClass = (role) => {
     if (role === 'ADMIN') {
@@ -128,9 +126,11 @@ function AdminDashboard() {
     return <ErrorMessage message={error} />;
   }
 
+  const smallBtn = { padding: '6px 12px', fontSize: '12px' };
+
   return (
     <div className="admin-page-container">
-      <div className="dashboard-container">
+      <div className="dashboard-container" style={{ maxWidth: '1100px' }}>
 
         <div className="card-header">
           <h2>Admin Dashboard</h2>
@@ -138,7 +138,7 @@ function AdminDashboard() {
         </div>
 
         {actionMessage ? (
-          <p style={{ color: '#16a34a', fontWeight: 600, marginBottom: '15px' }}>
+          <p style={{ color: '#86efac', fontWeight: 600, marginBottom: '15px' }}>
             {actionMessage}
           </p>
         ) : null}
@@ -156,8 +156,8 @@ function AdminDashboard() {
 
         <h3>All Users</h3>
 
-        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-          <table className="data-table">
+        <div className="card" style={{ padding: 0, overflowX: 'auto' }}>
+          <table className="data-table" style={{ minWidth: '900px' }}>
             <thead>
               <tr>
                 <th>Name</th>
@@ -166,8 +166,8 @@ function AdminDashboard() {
                 <th>Pending</th>
                 <th>Completed</th>
                 <th>Rent</th>
-                <th>Deposit (paid/total)</th>
-                <th></th>
+                <th>Deposit (paid / total)</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -181,21 +181,23 @@ function AdminDashboard() {
                     </td>
                     <td>{u.pendingCount}</td>
                     <td>{u.completedCount}</td>
-                     <td>₹{u.monthlyRent}</td>
+                    <td>₹{u.monthlyRent}</td>
                     <td>₹{u.depositPaid} / ₹{u.depositAmount}</td>
                     <td>
-                      <button className="btn btn-outline" onClick={() => handleEditFinance(u)}>
-                        Edit
-                      </button>
-                      <button className="btn btn-outline" style={{ marginLeft: '8px' }} onClick={() =>    handleResetPassword(u)}>
-                        Reset Password
-                      </button>
-                    </td>
-                                          {u.role !== 'ADMIN' && (
-                        <button className="btn btn-danger" style={{ marginLeft: '8px' }} onClick={() => handleDeleteUser(u)}>
-                          Delete
+                      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                        <button className="btn btn-outline" style={smallBtn} onClick={() => handleEditFinance(u)}>
+                          Edit
                         </button>
-                      )}
+                        <button className="btn btn-outline" style={smallBtn} onClick={() => handleResetPassword(u)}>
+                          Reset Pwd
+                        </button>
+                        {u.role !== 'ADMIN' && (
+                          <button className="btn btn-danger" style={smallBtn} onClick={() => handleDeleteUser(u)}>
+                            Delete
+                          </button>
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 );
               })}
@@ -210,7 +212,7 @@ function AdminDashboard() {
         ) : null}
 
         {pendingPayments.map((payment) => {
-          const screenshotUrl = 'http://localhost:8080/uploads/' + payment.screenshotPath;
+          const screenshotUrl = FILES_URL + payment.screenshotPath;
           return (
             <div key={payment.id} className="card">
               <div className="card-header">
