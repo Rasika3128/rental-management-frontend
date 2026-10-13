@@ -1,48 +1,69 @@
-# Rental Management System — Frontend
+# RentEase: Rental Management System (Frontend)
 
-A React-based web application for a rental management platform, where tenants can track rent payments and admins can review approvals — built on top of a Spring Boot + JWT secured backend.
+A responsive React web app where tenants track rent, deposits and payment status, and property owners (admins) manage tenants and approve payments.
+
+**Live demo:** https://rental-management-frontend-omega.vercel.app
+**Backend API:** https://rental-management-backend-geea.onrender.com
+**Backend repo:** [rental-management-backend](https://github.com/Rasika3128/rental-management-backend)
+
+> The backend runs on a free tier and may take ~50 seconds to wake up on the first request.
+
+## Screenshots
+
+<!-- Add screenshots to a /screenshots folder and link them here -->
+| Landing | Login | Tenant Profile | Admin Dashboard |
+|---|---|---|---|
+| ![](screenshots/landing.png) | ![](screenshots/login.png) | ![](screenshots/profile.png) | ![](screenshots/admin.png) |
 
 ## Features
 
-- **Authentication** — Login and Registration with file uploads (ID proof, photo)
-- **Protected Routes** — Role-based redirects (USER / ADMIN) using React Router
-- **Tenant Dashboard** — View profile, rent payment history with pending/completed status, and submit new payments with screenshot upload
-- **Admin Dashboard** — View all tenants, review pending payments, accept/reject with a remark
-- **JWT Token Management** — Automatic token attachment via Axios interceptors
-- **Responsive, Modern UI** — Glassmorphism-inspired design with gradient backgrounds
+**Tenant**
+- Register with ID proof and passport photo upload
+- Enter rent, deposit and occupation (student / working) details
+- Profile with photo and an account summary: monthly rent, total paid, balance, deposit status
+- Submit rent payments with a screenshot and track Pending / Accepted / Rejected status
+
+**Admin**
+- Dashboard with total users and pending payments
+- Review payment screenshots, accept or reject with a remark
+- Edit a tenant's rent and deposit details
+- Reset a tenant's password and delete users
+
+**General**
+- JWT authentication with role-based protected routes (USER / ADMIN)
+- Axios interceptor that attaches the token automatically
+- Responsive glassmorphism-style UI (desktop and mobile)
+- Reusable components for loading and error states
 
 ## Tech Stack
 
-- **React 19** + **Vite**
-- **React Router** for client-side routing
-- **Axios** for API communication
-- **Context API** for authentication state management
-- **Plain CSS** (custom design system)
+- React 19 + Vite
+- React Router
+- Axios
+- Context API (auth state)
+- Custom CSS design system
+- Deployed on Vercel
 
 ## Pages
 
 | Route | Description | Access |
-|-------|--------------|--------|
+|-------|-------------|--------|
 | `/` | Landing page | Public |
-| `/login` | Login page | Public |
-| `/register` | Registration page (with file uploads) | Public |
-| `/profile` | Tenant profile, rent history, payment upload | USER |
-| `/admin/dashboard` | Admin dashboard — users & pending payments | ADMIN |
+| `/login` | Login | Public |
+| `/register` | Registration with file uploads | Public |
+| `/profile` | Profile, account summary, rent history, payment upload | USER |
+| `/admin/dashboard` | Users, finance editing, pending payments | ADMIN |
 
 ## Running Locally
 
-1. Clone the repo
-2. Install dependencies:
-```bash
-   npm install
-```
-3. Ensure the backend is running at `http://localhost:8080`
-4. Start the dev server:
-```bash
-   npm run dev
-```
-5. Open `http://localhost:5173`
+1. Clone the repo and run `npm install`
+2. Set the API base URL in `src/services/api.js` (the backend URL or `http://localhost:8080/api`)
+3. Start the dev server: `npm run dev`
+4. Open `http://localhost:5173`
 
-## Related Repository
+## Roadmap
 
-Backend (Spring Boot): [rental-management-backend](https://github.com/Rasika3128/rental-management-backend)
+- Email-based password reset
+- Data export (CSV/Excel) for admins
+- Toast notifications and modals instead of browser prompts
+- Analytics charts on the admin dashboard

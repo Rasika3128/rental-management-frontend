@@ -143,8 +143,8 @@ function Profile() {
           </div>
         </div>
         <div className="card">
-          <p><strong>Deposit:</strong> ₹{profile.depositPaid} जमा / ₹{profile.depositAmount} एकूण
-            (बाकी ₹{profile.depositAmount - profile.depositPaid})</p>
+          <p><strong>Deposit:</strong> ₹{profile.depositPaid} paid of ₹{profile.depositAmount}
+          (₹{profile.depositAmount - profile.depositPaid} remaining)</p>
         </div>
 
         <h3>Pay Rent</h3>

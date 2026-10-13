@@ -382,11 +382,60 @@ a:hover {
 }
 
 @media (max-width: 768px) {
-  .split-visual {
-    display: none;
+  .split-page {
+    flex-direction: column;
   }
+
+  .split-visual {
+    flex: none;
+    padding: 28px 20px 24px;
+  }
+
+  .split-visual svg {
+    width: 120px;
+    margin-bottom: 12px;
+  }
+
+  .split-visual h1 {
+    font-size: 24px;
+  }
+
+  .split-visual p {
+    font-size: 13px;
+    margin-top: 6px;
+  }
+
   .split-form-side {
-    background: #fff;
+    flex: 1;
+    padding: 20px 14px 40px;
+  }
+
+  .split-form-box {
+    padding: 24px 20px;
+    border-radius: 20px;
+    margin-top: -24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Register form phone वर अख्खा scroll होईल, आत नाही */
+  .split-form-box[style] {
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+
+  .stats-row {
+    flex-direction: column;
+  }
+
+  .page-container,
+  .admin-page-container {
+    padding: 20px 12px;
+  }
+
+  .card-header {
+    flex-wrap: wrap;
+    gap: 10px;
   }
 }
 
